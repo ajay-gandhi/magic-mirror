@@ -4,6 +4,9 @@
   left: 10px;
   font-size: 30px;
 }
+.Muni__predictions {
+  font-weight: bold;
+}
 
 .Weather {
   position: fixed;
@@ -39,4 +42,5 @@
   position: absolute;
   bottom: 40px;
   font-size: 52px;
+  font-weight: bold;
 }
