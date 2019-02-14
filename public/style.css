@@ -1,18 +1,8 @@
-.Clock {
+.Muni {
   position: fixed;
-  bottom: 10px;
+  top: 10px;
   left: 10px;
-}
-.Clock__Date {
-  position: absolute;
-  bottom: 0px;
-  font-size: 24px;
-  white-space: nowrap;
-}
-.Clock__Time {
-  position: absolute;
-  bottom: 40px;
-  font-size: 52px;
+  font-size: 30px;
 }
 
 .Weather {
@@ -32,4 +22,21 @@
   right: 50px;
   font-size: 30px;
   white-space: nowrap;
+}
+
+.Clock {
+  position: fixed;
+  bottom: 10px;
+  left: 10px;
+}
+.Clock__Date {
+  position: absolute;
+  bottom: 0px;
+  font-size: 24px;
+  white-space: nowrap;
+}
+.Clock__Time {
+  position: absolute;
+  bottom: 40px;
+  font-size: 52px;
 }

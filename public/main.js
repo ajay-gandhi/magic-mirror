@@ -1,4 +1,30 @@
+/************************************ Muni ************************************/
+
+let muniTimeout;
+const muniEl = document.querySelector(".Muni__predictions");
+
+const getMuniPrediction = () => {
+  const xhr = new XMLHttpRequest();
+  xhr.open("GET", "/muni");
+  xhr.onreadystatechange = () => {
+    if (xhr.readyState === 4 && xhr.status === 200) {
+      const result = JSON.parse(xhr.responseText);
+      if (result.error) {
+        console.log(result.error);
+        muniEl.innerText = "Error";
+      } else {
+        muniEl.innerText = result.closestTrains.join(", ");
+      }
+    }
+  };
+  xhr.send();
+
+  muniTimeout = setTimeout(getMuniPrediction, 30000);
+};
+getMuniPrediction();
+
 /********************************** Weather ***********************************/
+
 const xhr = new XMLHttpRequest();
 xhr.open("GET", "/weather");
 xhr.onreadystatechange = () => {
@@ -25,6 +51,7 @@ const ICON_MAP = {
 };
 
 /*********************************** Clock ************************************/
+
 let clockTimeout;
 const dateEl = document.querySelector(".Clock__Date");
 const timeEl = document.querySelector(".Clock__Time");
