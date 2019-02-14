@@ -1,0 +1,35 @@
+.Clock {
+  position: fixed;
+  bottom: 10px;
+  left: 10px;
+}
+.Clock__Date {
+  position: absolute;
+  bottom: 0px;
+  font-size: 24px;
+  white-space: nowrap;
+}
+.Clock__Time {
+  position: absolute;
+  bottom: 40px;
+  font-size: 52px;
+}
+
+.Weather {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+}
+.Weather__Icon {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  font-size: 40px;
+}
+.Weather__Temperature {
+  position: absolute;
+  bottom: 0;
+  right: 50px;
+  font-size: 30px;
+  white-space: nowrap;
+}

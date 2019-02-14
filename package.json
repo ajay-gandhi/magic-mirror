@@ -1,0 +1,33 @@
+{
+  "name": "magic-mirror",
+  "version": "0.0.1",
+  "description": "Web server for my magic mirror",
+  "main": "server.js",
+  "dependencies": {
+    "express": "^4.16.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ajay-gandhi/magic-mirror.git"
+  },
+  "keywords": [
+    "magic",
+    "mirror",
+    "raspberry",
+    "pi",
+    "weather",
+    "time",
+    "date"
+  ],
+  "author": "Ajay Gandhi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ajay-gandhi/magic-mirror/issues"
+  },
+  "homepage": "https://github.com/ajay-gandhi/magic-mirror#readme"
+}
