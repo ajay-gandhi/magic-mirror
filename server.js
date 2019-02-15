@@ -7,7 +7,7 @@ const priv = require("./private");
 
 const app = express();
 
-app.use(express.static("public"));
+app.use(express.static(__dirname + "/public"));
 
 app.get("/weather", (req, res) => {
   request(`https://api.darksky.net/forecast/${priv.weatherApiKey}/37.735988,-122.388798`, (data) => {
@@ -37,7 +37,7 @@ app.get("/muni", (req, res) => {
   });
 });
 
-app.listen(8000, () => console.log("Listening on 8000"));
+app.listen(9003, () => console.log("Listening on 8000"));
 
 // http request helper
 const request = (url, cb) => {
