@@ -63,7 +63,8 @@ const clockRender = () => {
   const now = new Date();
   dateEl.innerText = `${WEEKDAYS[now.getDay()]}, ${MONTHS[now.getMonth()]} ${now.getDate()}`;
   const hour = now.getHours() === 0 ? 12 : (now.getHours() > 12 ? now.getHours() - 12 : now.getHours());
-  timeEl.innerText = `${hour}:${now.getMinutes()}${now.getHours() > 12 ? "pm" : "am"}`;
+  const min = now.getMinutes() < 10 ? `0${now.getMinutes()}` : now.getMinutes();
+  timeEl.innerText = `${hour}:${min}${now.getHours() > 12 ? "pm" : "am"}`;
   clockTimeout = setTimeout(clockRender, 10000);
 };
 clockRender();
