@@ -4,38 +4,27 @@ let muniTimeout;
 const muniEl = document.querySelector(".Muni__Predictions");
 
 const getMuniPrediction = () => {
-  const xhr = new XMLHttpRequest();
-  xhr.open("GET", "/muni");
-  xhr.onreadystatechange = () => {
-    if (xhr.readyState === 4 && xhr.status === 200) {
-      const result = JSON.parse(xhr.responseText);
-      if (result.error) {
-        console.log(result.error);
-        muniEl.innerText = "Error";
-      } else {
-        muniEl.innerText = result.closestTrains.join(", ");
-      }
+  xhrHelper("/muni", (response) => {
+    const result = JSON.parse(response);
+    if (result.error) {
+      console.log(result.error);
+      muniEl.innerText = "Error";
+    } else {
+      muniEl.innerText = result.closestTrains.join(", ");
     }
-  };
-  xhr.send();
-
+  });
   muniTimeout = setTimeout(getMuniPrediction, 30000);
 };
 getMuniPrediction();
 
 /********************************** Weather ***********************************/
 
-const xhr = new XMLHttpRequest();
-xhr.open("GET", "/weather");
-xhr.onreadystatechange = () => {
-  if (xhr.readyState === 4 && xhr.status === 200) {
-    const forecast = JSON.parse(xhr.responseText);
-    const tempText = `${parseInt(forecast.temperatureHigh)}&deg;<br /> ${parseInt(forecast.temperatureLow)}&deg;`;
-    document.querySelector(".Weather__Temperature").innerHTML = tempText;
-    document.querySelector(".Weather__Icon i").className += ` ${ICON_MAP[forecast.icon]}`;
-  }
-};
-xhr.send();
+xhrHelper("/weather", (response) => {
+  const forecast = JSON.parse(response);
+  const tempText = `${parseInt(forecast.temperatureHigh)}&deg;<br /> ${parseInt(forecast.temperatureLow)}&deg;`;
+  document.querySelector(".Weather__Temperature").innerHTML = tempText;
+  document.querySelector(".Weather__Icon i").className += ` ${ICON_MAP[forecast.icon]}`;
+});
 
 const ICON_MAP = {
   "clear-day":           "wi-day-sunny",
@@ -68,3 +57,15 @@ const clockRender = () => {
   clockTimeout = setTimeout(clockRender, 10000);
 };
 clockRender();
+
+// XHR helper
+function xhrHelper(url, cb) {
+  const xhr = new XMLHttpRequest();
+  xhr.open("GET", url);
+  xhr.onreadystatechange = () => {
+    if (xhr.readyState === 4 && xhr.status === 200) {
+      cb(xhr.responseText);
+    }
+  };
+  xhr.send();
+}
