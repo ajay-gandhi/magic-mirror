@@ -2,6 +2,7 @@
   cursor: none;
   background-color: #000;
   color: #eee;
+  fill: #eee;
 }
 body {
   font-family: 'Roboto Condensed';
@@ -24,12 +25,16 @@ body {
   bottom: 0;
   right: 0;
 }
+.Muni__Icon svg {
+  width: 100%;
+  height: 100%;
+}
 .Muni__Predictions {
-  width: 200px;
-  height: 80px;
   position: absolute;
   bottom: 140px;
-  right: 50px;
+  right: 56px;
+  width: 186px;
+  height: 80px;
   text-align: center;
   font-size: 70px;
 }

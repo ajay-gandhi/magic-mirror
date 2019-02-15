@@ -17,6 +17,10 @@ const getMuniPrediction = () => {
 };
 getMuniPrediction();
 
+xhrHelper("/transit.svg", (response) => {
+  document.querySelector(".Muni__Icon").innerHTML = response;
+});
+
 /********************************** Weather ***********************************/
 
 xhrHelper("/weather", (response) => {
