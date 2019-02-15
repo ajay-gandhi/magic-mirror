@@ -1,7 +1,7 @@
 /************************************ Muni ************************************/
 
 let muniTimeout;
-const muniEl = document.querySelector(".Muni__predictions");
+const muniEl = document.querySelector(".Muni__Predictions");
 
 const getMuniPrediction = () => {
   const xhr = new XMLHttpRequest();
@@ -30,8 +30,8 @@ xhr.open("GET", "/weather");
 xhr.onreadystatechange = () => {
   if (xhr.readyState === 4 && xhr.status === 200) {
     const forecast = JSON.parse(xhr.responseText);
-    const tempText = `${parseInt(forecast.temperatureHigh)} / ${parseInt(forecast.temperatureLow)}`;
-    document.querySelector(".Weather__Temperature").innerText = tempText;
+    const tempText = `${parseInt(forecast.temperatureHigh)}&deg;<br /> ${parseInt(forecast.temperatureLow)}&deg;`;
+    document.querySelector(".Weather__Temperature").innerHTML = tempText;
     document.querySelector(".Weather__Icon i").className += ` ${ICON_MAP[forecast.icon]}`;
   }
 };
