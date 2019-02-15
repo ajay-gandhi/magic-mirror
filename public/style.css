@@ -1,3 +1,8 @@
+* {
+  cursor: none;
+  background-color: #000;
+  color: #eee;
+}
 body {
   font-family: 'Roboto Condensed';
   font-weight: 400;
