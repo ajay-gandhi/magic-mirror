@@ -37,7 +37,7 @@ app.get("/muni", (req, res) => {
   });
 });
 
-app.listen(9003, () => console.log("Listening on 8000"));
+app.listen(9003, () => console.log("Listening on 9003"));
 
 // http request helper
 const request = (url, cb) => {
