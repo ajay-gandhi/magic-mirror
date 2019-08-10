@@ -2,6 +2,7 @@
 const express = require("express");
 const https = require("https");
 const http = require("http");
+const spotify = require("./spotify");
 const parseString = require("xml2js").parseString;
 const priv = require("./private");
 
@@ -13,6 +14,10 @@ app.get("/weather", (req, res) => {
   request(`https://api.darksky.net/forecast/${priv.weatherApiKey}/37.735988,-122.388798`, (data) => {
     res.send(JSON.parse(data).daily.data[0]);
   });
+});
+
+app.get("/spotify", (req, res) => {
+  spotify().then(d => res.send(d));
 });
 
 app.get("/muni", (req, res) => {

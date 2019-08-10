@@ -1,3 +1,71 @@
+/********************************** Spotify ***********************************/
+
+const spotifyIcon      = document.querySelector(".Spotify__Icon");
+const spotifyContainer = document.querySelector(".Spotify__Data");
+const spotifyTitle     = document.querySelector(".Spotify__Data h2");
+const spotifyArtist    = document.querySelector(".Spotify__Data h3");
+const spotifyProps = {
+  contWidth: spotifyContainer.offsetWidth,
+  id: -1,
+};
+let spotifyUpdateTimeout;
+let spotifyMarqueeTimeout;
+let spotifySvg;
+
+const getSpotifyState = () => {
+  xhrHelper("/spotify", (response) => {
+    const result = JSON.parse(response);
+    if (!result.playing) {
+      spotifyIcon.innerHTML = "";
+      spotifyTitle.textContent = "";
+      spotifyArtist.textContent = "";
+      return;
+    }
+    if (spotifyProps.id !== result.id) {
+      spotifyIcon.innerHTML = spotifySvg;
+      spotifyTitle.textContent = result.name;
+      spotifyArtist.textContent = result.artists;
+      spotifyProps.id = result.id;
+
+      // Marquee
+      spotifyProps.singleWidth = spotifyTitle.offsetWidth;
+      if (spotifyProps.singleWidth > spotifyProps.contWidth) {
+        spotifyTitle.innerHTML = `${spotifyTitle.textContent}&nbsp;&nbsp&nbsp;&nbsp;&nbsp;&nbsp;${spotifyTitle.textContent}`;
+        spotifyProps.doubleWidth = spotifyTitle.offsetWidth;
+        spotifyProps.endCondition = spotifyProps.contWidth - spotifyProps.singleWidth;
+        spotifyTitle.style.right = `${spotifyProps.contWidth - spotifyProps.doubleWidth}px`;
+        window.requestAnimationFrame(step);
+      } else {
+        spotifyTitle.style.right = "0";
+        if (spotifyMarqueeTimeout) {
+          window.clearTimeout(spotifyMarqueeTimeout);
+          spotifyMarqueeTimeout = null;
+        }
+      }
+    }
+  });
+  spotifyUpdateTimeout = setTimeout(getSpotifyState, 10000);
+};
+getSpotifyState();
+
+xhrHelper("/assets/music.svg", (response) => {
+  spotifySvg = response;
+});
+
+const step = () => {
+  // This is uggo but I'm getting tired of this lol
+  const currentRight = Number(spotifyTitle.style.right.slice(0, -2));
+  if (currentRight < spotifyProps.endCondition) {
+    spotifyTitle.style.right = `${currentRight + 2}px`;
+    window.requestAnimationFrame(step);
+  } else {
+    spotifyMarqueeTimeout = setTimeout(() => {
+      spotifyTitle.style.right = `${spotifyProps.contWidth - spotifyProps.doubleWidth}px`;
+      window.requestAnimationFrame(step);
+    }, 5000);
+  }
+};
+
 /************************************ Muni ************************************/
 
 let muniTimeout;
@@ -7,16 +75,16 @@ const getMuniPrediction = () => {
   xhrHelper("/muni", (response) => {
     const result = JSON.parse(response);
     if (result.error) {
-      muniEl.innerText = "Error";
+      muniEl.textContent = "Error";
     } else {
-      muniEl.innerText = result.closestTrains.join(", ");
+      muniEl.textContent = result.closestTrains.join(", ");
     }
   });
   muniTimeout = setTimeout(getMuniPrediction, 30000);
 };
 getMuniPrediction();
 
-xhrHelper("/transit.svg", (response) => {
+xhrHelper("/assets/transit.svg", (response) => {
   document.querySelector(".Muni__Icon").innerHTML = response;
 });
 
@@ -53,13 +121,15 @@ const MONTHS = ["January", "February", "March", "April", "May", "June", "July", 
 
 const clockRender = () => {
   const now = new Date();
-  dateEl.innerText = `${WEEKDAYS[now.getDay()]}, ${MONTHS[now.getMonth()]} ${now.getDate()}`;
+  dateEl.textContent = `${WEEKDAYS[now.getDay()]}, ${MONTHS[now.getMonth()]} ${now.getDate()}`;
   const hour = now.getHours() === 0 ? 12 : (now.getHours() > 12 ? now.getHours() - 12 : now.getHours());
   const min = now.getMinutes() < 10 ? `0${now.getMinutes()}` : now.getMinutes();
-  timeEl.innerText = `${hour}:${min}${now.getHours() > 12 ? "pm" : "am"}`;
+  timeEl.textContent = `${hour}:${min}${now.getHours() > 12 ? "pm" : "am"}`;
   clockTimeout = setTimeout(clockRender, 10000);
 };
 clockRender();
+
+/********************************** Helpers ***********************************/
 
 // XHR helper
 function xhrHelper(url, cb) {
@@ -72,3 +142,25 @@ function xhrHelper(url, cb) {
   };
   xhr.send();
 }
+
+// CSS @keyframes generator
+const createKeyframes = (start, end) => {
+  const oldStyle = document.getElementsByTagName("style");
+  if (oldStyle.length > 0) oldStyle[0].parentNode.removeChild(oldStyle[0]);
+
+  const style = document.createElement("style");
+  style.type = "text/css";
+  var keyFrames = `
+  @keyframes marquee {
+    0% {
+      right: ${start}px,
+    }
+    50% {
+      right: ${end}px,
+    }
+    50.01% {
+      right: ${start}px,
+    }
+  }`;
+  document.getElementsByTagName("head")[0].appendChild(style);
+};
