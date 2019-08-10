@@ -17,7 +17,7 @@ app.get("/weather", (req, res) => {
 });
 
 app.get("/spotify", (req, res) => {
-  spotify().then(d => res.send(d)).catch(res.send({ playing: false }));
+  spotify().then(d => res.send(d)).catch(() => res.send({ playing: false }));
 });
 
 app.get("/muni", (req, res) => {
