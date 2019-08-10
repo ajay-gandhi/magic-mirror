@@ -7,7 +7,6 @@ const getMuniPrediction = () => {
   xhrHelper("/muni", (response) => {
     const result = JSON.parse(response);
     if (result.error) {
-      console.log(result.error);
       muniEl.innerText = "Error";
     } else {
       muniEl.innerText = result.closestTrains.join(", ");
